@@ -19,7 +19,11 @@ export const SearchMoviesList = async ({ promise }: Props) => {
         <Container tag="div" variant="movie">
           {data.docs.length ? (
             data.docs.map((el) => (
-              <SearchCard key={el.id} item={el} path={`/movie/${el.id}`} />
+              <SearchCard
+                key={`${el.id}_${el.name || el.alternativeName}`}
+                item={el}
+                path={`/movie/${el.id}`}
+              />
             ))
           ) : (
             <SearchEmptyResult />

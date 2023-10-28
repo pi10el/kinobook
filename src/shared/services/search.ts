@@ -5,12 +5,14 @@ const blur =
 
 interface ISortParseReturn {
   field: undefined | string[];
-  dir: 1 | -1;
+  dir: 1 | -1 | undefined;
 }
 
 export const searchServices = {
   getSearchMovies: async (props: IPropsSearchMovies) => {
     const parseSort = () => {
+      if (!props.sort) return undefined;
+
       const sort = props.sort?.split('(') || [];
 
       const result = (field?: string[]): ISortParseReturn => ({
@@ -31,8 +33,6 @@ export const searchServices = {
           return result();
       }
     };
-
-    console.log(props);
 
     const defaultParam: ParametersRequest = {
       selectFields: [
@@ -55,8 +55,8 @@ export const searchServices = {
     };
 
     const controlParam: ParametersRequest = {
-      sortField: parseSort()?.field,
-      sortType: parseSort()?.dir,
+      sortField: parseSort()?.field || undefined,
+      sortType: parseSort()?.dir || undefined,
       typeNumber: props.type,
       'genres.name': props.genres?.split(','),
       'countries.name': props.country?.split(','),

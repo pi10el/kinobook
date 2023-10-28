@@ -197,7 +197,7 @@ interface ITrailerMovie {
 interface ParametersRequest {
   selectFields?: Array<string>;
   sortField?: Array<string>;
-  sortType?: 1 | -1;
+  sortType?: 1 | -1 | undefined;
   page?: number;
   limit?: number;
   id?: number;

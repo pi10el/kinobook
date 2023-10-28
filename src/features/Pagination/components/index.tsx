@@ -1,17 +1,15 @@
 'use client';
 
 import { useSearchFilter } from '@/shared/lib/hooks/useSearchFilter';
-import useAppDispatch from '@/shared/lib/hooks/useAppDispatch';
 
 // helpers
 import { paginControl } from '../lib/paginControl';
 
-// components
-import IconFilter from '@/shared/components/icons/IconFilter';
-import { IconArrow } from '@/shared/components/icons/IconArrow';
-
 // styles
 import styles from './styles.module.scss';
+
+// components
+import { IconArrow } from '@/shared/components/icons/IconArrow';
 
 interface Props {
   pages: number;
@@ -19,9 +17,10 @@ interface Props {
 
 export const Pagination: React.FC<Props> = ({ pages }) => {
   const { params, setFilter } = useSearchFilter();
-  const { setDropdownFilters } = useAppDispatch();
 
   const current = +params.page || 1;
+
+  const maxPages = current + 50 > pages ? pages : current + 50;
 
   const setPage = (numberPage: number) => {
     setFilter({
@@ -62,11 +61,8 @@ export const Pagination: React.FC<Props> = ({ pages }) => {
         <IconArrow direction="right" />
       </button>
       {pages > 0 ? (
-        <button
-          disabled={current === pages || pages === 0}
-          onClick={() => setPage(pages)}
-        >
-          {pages}
+        <button disabled={current === pages} onClick={() => setPage(maxPages)}>
+          {maxPages}
         </button>
       ) : null}
     </div>
